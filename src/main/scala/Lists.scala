@@ -114,9 +114,13 @@ class Lists:
      *     res0: List[Int] = List(1, 2, 3, 1, 4, 5)
      * }}}
      */
-    def compress[A](ls: List[A]): List[A] = ls match {
-        case Nil => Nil
-        case head :: tail => head :: tail.dropWhile(_ == head)
+    def compress[A](ls: List[A]): List[A] = {
+        def compressHelper(result: List[A], currentList: List[A]): List[A] = currentList match {
+            case Nil => result.reverse
+            case head :: tail => compressHelper(head :: result, tail.dropWhile(_ == head))
+        }
+
+        compressHelper(Nil, ls)
     }
 
 
